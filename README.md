@@ -1,5 +1,5 @@
 # Methods-Chapter-2023-Immune-Synapse
-Methods Chapter 2023 Immune Synapse
+Methods Chapter 2023 Immune Synapse Macros Description
 # Percentage-antigen-internalization
 Complete set of Fiji macros used to determine percent antigen internalization.
 # General overview
