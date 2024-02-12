@@ -18,7 +18,10 @@ Analysis performed using Fiji (3).
 Run macros in order numbered. <br/> <br/>
 Macros are written for multi-channel image acquisition. The test images provided have 3 channels (acquired as C1 - B220 (405 nm), C2 - Ag550 (561 nm), C3 - Ag647 (647 nm)). The minimum number of channels needed is two – one for cell segmentation and one for antigen internalisation. <br/> <br/>
 Dialog boxes are provided for the user to specify file paths and set image properties according to the microscope used. For example, our camera’s pixel size is 0.11 µm.  <br/> <br/>
-Test data is provided for running macros. We suggest that you go through the macros with our test data to familiarize yourself with how they work, before moving onto your own data. <br/> <br/>
+Test data is provided for running macros and can be downloaded from:
+https://figshare.com/s/982dca32b0276b96874f (Test input)<br/> <br/>
+https://figshare.com/s/3a57826368cf3f3547d3 (Test output). <br/> <br/>
+We suggest that you go through the macros with our test data to familiarize yourself with how they work, before moving onto your own data. <br/> <br/>
 # 1.GenerateFlatfieldImage.ijm
 Background: <br/> <br/>
 To ensure accurate image analysis, correction for non-uniform illumination using flatfielding is recommended. The typical Gaussian illumination profile results in dimmer edges compared to the center of the image. Flatfielding evens out the illumination (Figure 2) enhancing accuracy of image analysis. <br/> <br/>
