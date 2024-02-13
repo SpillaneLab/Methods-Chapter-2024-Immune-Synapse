@@ -70,17 +70,17 @@
        		//Get the file name without extension 
        		imagesName=getTitle();
        		title = imagesName;
-			dotIndex = indexOf(title, ".");
-			basename = substring(title, 0, dotIndex); 
+		dotIndex = indexOf(title, ".");
+		basename = substring(title, 0, dotIndex); 
 			
-			//Set image properties, make sure you adjust pixel dimensions based on your camera properties
-			getDimensions(width, height, channels, slices, frames);
-			run("Properties...", "channels=channels slices=slices frames=frames unit=µm pixel_width="+pxSize+" pixel_height="+pxSize+" voxel_depth=1.0000000");
+		//Set image properties, make sure you adjust pixel dimensions based on your camera properties
+		getDimensions(width, height, channels, slices, frames);
+		run("Properties...", "channels=channels slices=slices frames=frames unit=µm pixel_width="+pxSize+" pixel_height="+pxSize+" voxel_depth=1.0000000");
        		
        		//Duplicate the original image and rename
        		run("Duplicate...", "duplicate");
        		
-			//Rename the image 
+		//Rename the image 
        		rename("Image"); 
        		
        		//Duplicate again so can easily save cells with all channels
@@ -99,17 +99,18 @@
        		run("Split Channels");
        		
        		//Segment on the desired channel for segmentation 
-       		//Adjust thresholding parameters as required, segmentation method needs to be tested and adjusted to the images, good results are generally acquired with Otsu, Huang and Triangle for thresholding
+       		//Adjust thresholding parameters as required, segmentation method needs to be tested and adjusted to the images
+		//Good results are generally acquired with Otsu, Huang and Triangle for thresholding
        		
        		selectWindow("C"+ch+"-Maxproj");
        		run("Duplicate...", " ");
        		setAutoThreshold("Otsu dark");
-			setOption("BlackBackground", true);
-			run("Convert to Mask");
-			run("Fill Holes");
+		setOption("BlackBackground", true);
+		run("Convert to Mask");
+		run("Fill Holes");
 			
-			//Separate any touching cells
-			run("Watershed");
+		//Separate any touching cells
+		run("Watershed");
        		
        		//Rename to be the segmented image 
        		rename("Segmented Image");
@@ -119,16 +120,16 @@
        		rename("Reference"); 
        		
       		//Set the parameters for measuring and reference the channel used for segmentation
-			run("Set Measurements...", "area mean standard modal min perimeter shape integrated median redirect=Reference");	
+		run("Set Measurements...", "area mean standard modal min perimeter shape integrated median redirect=Reference");	
 				
        		//Analyse particles and filter ROI based on size - adjust based on properties of acquired image and cell size
        		//Our camera's pixel size = 0.11um
        		//Exclude cells touching the edge of the image and add segmented cells to ROI manager
        		selectWindow("Segmented Image");
-			run("Analyze Particles...", "size="+minSize+"-"+maxSize+" pixel exclude add");
+		run("Analyze Particles...", "size="+minSize+"-"+maxSize+" pixel exclude add");
 			
-			//Select the image with all channels 
-			selectWindow("Channels");
+		//Select the image with all channels 
+		selectWindow("Channels");
 			
 			//If no segmented cells/ROIs, do nothing
 			if (roiManager("count")==0) {
