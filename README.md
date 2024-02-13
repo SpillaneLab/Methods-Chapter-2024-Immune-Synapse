@@ -1,5 +1,3 @@
-# Methods-Chapter-2023-Immune-Synapse
-Methods Chapter 2023 Immune Synapse Macros Description
 # Percentage-antigen-internalization
 Complete set of Fiji macros used to determine percent antigen internalization.
 # General overview
@@ -21,8 +19,7 @@ Dialog boxes are provided for the user to specify file paths and set image prope
 Test data is provided for running macros and can be downloaded from:
 https://figshare.com/s/982dca32b0276b96874f (Test input)<br/> <br/>
 https://figshare.com/s/3a57826368cf3f3547d3 (Test output). <br/> <br/>
-We suggest that you go through the macros with our test data to familiarize yourself with how they work, before moving onto your own data. <br/> <br/>
-# 1.GenerateFlatfieldImage.ijm
+We suggest that you go through the macros with our test data to familiarize yourself with how they work, before moving onto your own data. <br/> <br/># 1.GenerateFlatfieldImage.ijm
 Background: <br/> <br/>
 To ensure accurate image analysis, correction for non-uniform illumination using flatfielding is recommended. The typical Gaussian illumination profile results in dimmer edges compared to the center of the image. Flatfielding evens out the illumination (Figure 2) enhancing accuracy of image analysis. <br/> <br/>
 ![Picture1](https://github.com/SpillaneLab/Flatfielding/assets/143707918/c04eadb4-92d9-43f9-9049-492d84366528) <br/> <br/>
@@ -59,7 +56,7 @@ Macro steps: <br/> <br/>
 3.	Output directory for segmentation overlay images – this is where the overlay for the whole image is saved to allow the user to assess the segmentation.
 4.	Image pixel size (µm) – the value will depend on the experimental setup. For the test data, the pixel size is 0.11 µm.  
 5.	Channel used for segmentation – we recommend using the channel for the membrane stain, such as the B220 channel. For the test data, channel 1 corresponds to B220 membrane staining.
-6.	Minimum and maximum cell size (pixel2) – these parameters should be adjusted to ensure good segmentation. For our test data, set the minimum value to 600 and maximum to 10,000. 
+6.	Minimum and maximum cell size (pixel2) – these parameters should be adjusted to ensure good segmentation. For our test data, set the minimum value to 300 and maximum to 10,000. 
 2.	The macro will segment cells using a user-defined channel and get bounding rectangles to save multi-channel Z-stack images for individual cells. 
 Within the macro, the method of segmentation (e.g., Otsu) can be adjusted if required to achieve good segmentation. Note that the segmentation is required only to get bounding rectangle of the cell, and is not for quantification, so perfect segmentation is not necessary. Any debris or touching cells (will be difficult to segment later) should be removed manually by deleting the “.tif” file for the individual cell before moving onto 4.ResliceAndSegment.ijm. This can be assessed by either opening all the Z-stack images in the cell crop folder for individual cells or using the segmentation overlay (second output directory). Cell crops can alternatively be obtained manually, but you should have a folder with Z-stack files for individual cells before moving onto the next macro. <br/> <br/>
 Once this macro is complete, the user should manually define the “cell” and “cell + synapse” regions and save them separately as “.tif” files for each cell (ensuring matching numbering). These regions are defined as (see Figure 1):   <br/> <br/>
