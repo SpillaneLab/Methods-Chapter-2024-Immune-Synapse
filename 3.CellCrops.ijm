@@ -98,10 +98,10 @@
        		//Split the channels of the max projection of the original duplicate
        		run("Split Channels");
        		
-       		//Segment on the desired channel e.g., membrane stain like B220 or brightfield, in our example it is channel 3
+       		//Segment on the desired channel for segmentation 
        		//Adjust thresholding parameters as required, segmentation method needs to be tested and adjusted to the images, good results are generally acquired with Otsu, Huang and Triangle for thresholding
        		
-       		selectWindow("C3-Maxproj");
+       		selectWindow("C"+ch+"-Maxproj");
        		run("Duplicate...", " ");
        		setAutoThreshold("Otsu dark");
 			setOption("BlackBackground", true);
