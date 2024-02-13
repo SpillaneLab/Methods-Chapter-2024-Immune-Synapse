@@ -26,7 +26,7 @@ We suggest that you go through the macros with our test data to familiarize your
 # 1.GenerateFlatfieldImage.ijm
 Background: <br/> <br/>
 To ensure accurate image analysis, correction for non-uniform illumination using flatfielding is recommended. The typical Gaussian illumination profile results in dimmer edges compared to the center of the image. Flatfielding evens out the illumination (Figure 2) enhancing accuracy of image analysis. <br/> <br/>
-![Picture1](https://github.com/SpillaneLab/Flatfielding/assets/143707918/c04eadb4-92d9-43f9-9049-492d84366528) <br/> <br/>
+![Picture3](https://github.com/SpillaneLab/Methods-Chapter-2023-Immune-Synapse/assets/143707918/f48c803a-bff3-4c3d-864a-125ac1da9979) <br/> <br/>
 Figure 2: Representative image showing example raw image (left) having non-uniform illumination, which follows a Gaussian distribution. Flatfielding corrects for aberrations and uneven illumination (right). <br/> <br/>
 Experimental setup: <br/> <br/>
 Image a dye on a clean glass coverslip matching each channel of a multi-channel acquisition (termed “single colours”; see Figure 3). Acquire a minimum of 36 images per channel and ensure the same imaging conditions (intensity, exposure, and laser power) as used for the imaging experiment. Acquire in the same order as for the imaging experiment to check for bleedthrough between channels. <br/> <br/>
