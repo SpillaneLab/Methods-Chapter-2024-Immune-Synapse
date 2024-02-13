@@ -1,25 +1,29 @@
 # Percentage-antigen-internalization
 Complete set of Fiji macros used to determine percent antigen internalization.
+
 # General overview
 Users are directed to our Methods Chapter (reference to come) on the experimental setup to investigate antigen internalization. A common way to analyse the efficiency of B cell antigen internalization is to quantify the percentage of available antigen that B cells internalize from the immune synapse (1,2). This can be determined by measuring the antigen fluorescence intensity in the cell (above the synapse plane) and dividing it by the total antigen fluorescence intensity in the cell and in the synapse (Figure 1). <br/> <br/>
-
- <br/> <br/>
+![Picture1](https://github.com/SpillaneLab/Methods-Chapter-2023-Immune-Synapse/assets/143707918/ad880d8b-cff6-4a89-a934-0cf3ee9e66f1) <br/> <br/>
 Figure 1. (A) Maximum intensity projections of a naive B cell isolated from a B1-8i mouse that was plated onto a planar lipid bilayer coated with NIP-coupled DNA sensors, fixed after 45 minutes, and stained for the surface marker B220. (B) Schematic showing the distribution of internalized antigen located inside the cell, and total antigen in the cell and in the synapse. (C) Using Otsu thresholding, we generate masks using the B220 signal to define the "cell" and “cell + synapse" regions of interest and overlay the masks onto the Atto647N signal. (D) The extracted Atto647N signal intensities are used to quantify the percentage of antigen internalized using the equation given in (B). Scale bars, 5 µm. <br/> <br/>
 Here, we provide a complete series of Fiji macros that are used to generate single colour flatfield images from image stacks, flatfield raw experimental images to correct for uneven illumination, crop around cells (poorly segmented cells should be removed manually), reslice and sum intensities to visualize antigen internalization. Users should then manually define the “cell” and “cell + synapse” regions, save these ROIs separately and run the automated segmentation macro, which segments objects on the membrane stain (in our case is B220) and references the internalized antigen channel (Atto647N signal). Users should use the Raw Integrated Density from the output “.csv” files to then determine the percent internalization using the equation given in Figure 1. <br/> <br/>
+
 # How to save macros
 Analysis performed using Fiji (3).
 1.	Copy the code (from browser or download as “.txt”) and paste into macro window as: 
      Plugins > New > Macro
 2.	Ensure the language is set to IJ1 Macro in the Language tab of the macro window. 
-3.	Save the macro using “.ijm” extension. 
+3.	Save the macro using “.ijm” extension.
+   
 # How to use macros
 Run macros in order numbered. <br/> <br/>
 Macros are written for multi-channel image acquisition. The test images provided have 3 channels (acquired as C1 - B220 (405 nm), C2 - Ag550 (561 nm), C3 - Ag647 (647 nm)). The minimum number of channels needed is two – one for cell segmentation and one for antigen internalisation. <br/> <br/>
 Dialog boxes are provided for the user to specify file paths and set image properties according to the microscope used. For example, our camera’s pixel size is 0.11 µm.  <br/> <br/>
 Test data is provided for running macros and can be downloaded from:
 https://figshare.com/s/982dca32b0276b96874f (Test input)<br/> <br/>
-https://figshare.com/s/3a57826368cf3f3547d3 (Test output). <br/> <br/>
-We suggest that you go through the macros with our test data to familiarize yourself with how they work, before moving onto your own data. <br/> <br/># 1.GenerateFlatfieldImage.ijm
+https://figshare.com/s/3a57826368cf3f3547d3 (Test output) <br/> <br/>
+We suggest that you go through the macros with our test data to familiarize yourself with how they work, before moving onto your own data. <br/> <br/>
+
+# 1.GenerateFlatfieldImage.ijm
 Background: <br/> <br/>
 To ensure accurate image analysis, correction for non-uniform illumination using flatfielding is recommended. The typical Gaussian illumination profile results in dimmer edges compared to the center of the image. Flatfielding evens out the illumination (Figure 2) enhancing accuracy of image analysis. <br/> <br/>
 ![Picture1](https://github.com/SpillaneLab/Flatfielding/assets/143707918/c04eadb4-92d9-43f9-9049-492d84366528) <br/> <br/>
@@ -31,13 +35,12 @@ Figure 3: Example setup for single colour imaging using an 8-well Lab-Tek chambe
 Also, acquire a minimum of 36 images with no laser to obtain background counts (dark counts). In Fiji, generate a mean Z-projection of the image stack (Image → Stacks → Z-project→ Average Intensity) and save it as “AVG_Stack.tif ”. <br/> <br/>
 Macro description: <br/> <br/>
 This macro generates a background-subtracted and normalised image for flatfield correction. <br/> <br/>
-
 Macro steps:
 1.	Dialog box opens and asks the user to specify parameters. The input directory is where the single-colour images for that channel are saved, the output directory is where the resulting flatfield images will be saved, and the channel is that which is to be used to generate the flatfield image. For example, in the test data provided, a B220 flatfield image should be generated using Channel 1 of the 405 nm single-colour images, an Ag550 flatfield image generated using Channel 2 of the 561 nm single-colour images, and an Ag647 flatfield image generated using Channel 3 of the 647 nm single-colour images. The user should also specify where the background (AVG_Stack.tif) image is saved. 
 2.	The macro opens all .tif images in the input directory, splits channels, closes those that are not needed, and combines the images from the single-colour channel into a stack. 
 3.	The macro then subtracts the background image from all images in the stack and generates a median projection of the image stack.
 4.	The median projection is then normalised using the mean pixel value and the resulting image is saved. 
-The macro should be run for all channels that require a flatfield image. For the test data provided, this will result in three normalised images: one each for C1 - B220, C2 - Ag550, C3 - Ag647. To proceed to the next step (2.ImageCorrection.ijm), the user should manually merge the normalised images into a multi-colour image (Image  Colour  Merge Channels), maintaining the order and dimensions as the original image acquisition. <br/> <br/>
+The macro should be run for all channels that require a flatfield image. For the test data provided, this will result in three normalised images: one each for C1 - B220, C2 - Ag550, C3 - Ag647. To proceed to the next step (2.ImageCorrection.ijm), the user should manually merge the normalised images into a multi-colour image (Image - Colour - Merge Channels), maintaining the order and dimensions as the original image acquisition. <br/> <br/>
 
 # 2.ImageCorrection.ijm
 Macro description: <br/> <br/>
@@ -46,6 +49,7 @@ Macro steps: <br/> <br/>
 1.	Dialog box opens and asks the user to specify parameters. The input directory should be the raw experimental images, the output directory should be where the user wants the flatfielded images to be saved, the background image should be where the background (AVG_Stack.tif) image is saved, and the flatfield image should be the combined flatfielded stack. The user should also define the camera’s pixel size. For the test data provided, the pixel size is 0.11 µm. 
 2.	First, the macro subtracts the background image from the sample image stack. 
 3.	The macro then divides the background-subtracted image stack by the flatfield stack (generated as a result of macro 1), and saves the flatfielded images in an output folder.
+
 # 3.CellCrops.ijm	
 Macro description: <br/> <br/>
 This macro saves multi-channel Z-stack images for individual cells.
@@ -62,6 +66,7 @@ Within the macro, the method of segmentation (e.g., Otsu) can be adjusted if req
 Once this macro is complete, the user should manually define the “cell” and “cell + synapse” regions and save them separately as “.tif” files for each cell (ensuring matching numbering). These regions are defined as (see Figure 1):   <br/> <br/>
 “Cell + synapse” – includes the whole cell area including antigen accumulated at the synapse and internalized antigen clusters. <br/> <br/>
 “Cell” – signal of internalized antigen clusters excluding synapse-accumulated antigen; usually ~ 1.5 µm above the synapse level (3 optical slices) with our microscope. <br/> <br/>
+
 # 4.ResliceAndSegment.ijm 
 Macro description: <br/> <br/>
 This macro reslices the Z-stack image for each cell crop. The macro then generates a maximum intensity projection that is saved for the user to visualise antigen internalisation. Cells are segmented using the maximum intensity projection on the B220 channel (or other membrane stain, defined by the user) but the sum projection of the Atto647N channel is referenced for quantification of percent antigen internalisation. 
@@ -80,8 +85,10 @@ Macro steps: <br/> <br/>
 4.	The macro will then go back to the resliced image and create a maximum intensity projection. This will be saved so that the user can visualise antigen internalisation for each cell. 
 5.	The macro will then split the channels of the maximum intensity projection, select the channel used for membrane staining and threshold. The macro will then reference the internalised antigen channel of the sum projection and output the Integrated Density and Raw Integrated Density (saving as a “.csv” file for the user). In Fiji, when you select “Integrated Density” from the “Set Measurements” plugin, you get two outputs - Integrated Density (IntDen) and Raw Integrated Density (RawIntDen) The IntDen is “the product of area and mean gray value” whereas the RawIntDen is “the sum of the values of the pixels in the image or selection” (https://imagej.net/ij/docs/menus/analyze.html#:~:text=Integrated%20Density%20%2D%20Calculates%20and%20displays,the%20same%20for%20uncalibrated%20image).
 Once the macro has finished running, the user should open the “.csv” file for both the “cell” and “cell + synapse” regions of interest. The user can then calculate the percentage of antigen internalisation by dividing the intensity of the “cell” by that of the “cell + synapse” and multiplying by 100 (equation given in Figure 1). <br/> <br/>
+
 # Authors 
 Hannah McArthur, Anna Bajur and Katelyn Spillane
+
 # References 
 1.	Nowosad CR, Spillane KM, Tolar P. Germinal center B cells recognize antigen through a specialized immune synapse architecture. Nature Immunology. 2016 Jul;17(7):870–7. 
 2.	Spillane KM, Tolar P. B cell antigen extraction is regulated by physical properties of antigen-presenting cells. Journal of Cell Biology. 2017 Jan;216(1):217–30. 
