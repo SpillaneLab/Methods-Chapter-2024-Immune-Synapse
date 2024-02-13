@@ -85,7 +85,7 @@ Macro steps:
 4.	The macro will then go back to the resliced image and create a maximum intensity projection. This will be saved so that the user can visualise antigen internalisation for each cell. 
 5.	The macro will then split the channels of the maximum intensity projection, select the channel used for membrane staining and threshold. The macro will then reference the internalised antigen channel of the sum projection and output the Integrated Density and Raw Integrated Density (saving as a “.csv” file for the user). In Fiji, when you select “Integrated Density” from the “Set Measurements” plugin, you get two outputs - Integrated Density (IntDen) and Raw Integrated Density (RawIntDen) The IntDen is “the product of area and mean gray value” whereas the RawIntDen is “the sum of the values of the pixels in the image or selection” (https://imagej.net/ij/docs/menus/analyze.html#:~:text=Integrated%20Density%20%2D%20Calculates%20and%20displays,the%20same%20for%20uncalibrated%20image). <br/> <br/>
 
-Once the macro has finished running, the user should open the “.csv” file for both the “cell” and “cell + synapse” regions of interest. The user can then calculate the percentage of antigen internalisation by dividing the intensity of the “cell” by that of the “cell + synapse” and multiplying by 100 (equation given in Figure 1). 
+Once the macro has finished running, the user should open the “.csv” file for both the “cell” and “cell + synapse” regions of interest. The user can then calculate the percentage of antigen internalisation by dividing the RawIntDen of the “cell” by that of the “cell + synapse” and multiplying by 100 (equation given in Figure 1). 
 
 # Authors 
 Hannah McArthur, Anna Bajur and Katelyn Spillane
